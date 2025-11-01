@@ -8,6 +8,7 @@ from flask_cors import CORS
 from flask_jwt_extended import create_access_token
 import os
 from base64 import b64encode
+from werkzeug.security import generate_password_hash, check_password_hash
 
 api = Blueprint('api', __name__)
 
@@ -39,6 +40,7 @@ def register():
         return jsonify({"error": "User already exists"}), 400
 
     salt = b64encode(os.urandom(32)).decode('utf-8')
+    password = generate_password_hash(f"{password}{salt}")
 
     new_user = User(
         email=email,
