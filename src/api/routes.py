@@ -31,7 +31,7 @@ def register():
 
     if not email or not password or not name or not last_name:
         return jsonify({"error": "Missing fields"}), 400
-    
+
     if not validate_email(email):
         return jsonify({"error": "Invalid email"}), 400
 
@@ -57,3 +57,24 @@ def register():
     except Exception as error:
         db.session.rollback()
         return jsonify({"error": "Failed to register user", "Error": f"{error.args}"}), 500
+
+
+@api.route("/login", methods=["POST"])
+def login():
+    data = request.get_json()
+
+    email = data.get("email")
+    password = data.get("password")
+
+    if not email or not password:
+        return jsonify({"error": "Missing email or password"}), 400
+
+    user = User.query.filter_by(email=email).one_or_none()
+    if not user:
+        return jsonify({"error": "Invalid credentials"}), 404
+
+    if not check_password_hash(user.password, f"{password}{user.salt}"):
+        return jsonify({"error": "Invalid credentials"}), 404
+    else:
+        return jsonify({"token": create_access_token(identity="ready")}), 200
+   
