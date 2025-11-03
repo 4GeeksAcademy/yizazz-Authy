@@ -5,10 +5,11 @@ from flask import Flask, request, jsonify, url_for, Blueprint, jsonify
 from api.models import db, User
 from api.utils import generate_sitemap, APIException, validate_email
 from flask_cors import CORS
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 import os
 from base64 import b64encode
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import timedelta
 
 api = Blueprint('api', __name__)
 
@@ -63,8 +64,8 @@ def register():
 def login():
     data = request.get_json()
 
-    email = data.get("email")
-    password = data.get("password")
+    email = data.get("email").strip()
+    password = data.get("password").strip()
 
     if not email or not password:
         return jsonify({"error": "Missing email or password"}), 400
@@ -76,5 +77,20 @@ def login():
     if not check_password_hash(user.password, f"{password}{user.salt}"):
         return jsonify({"error": "Invalid credentials"}), 404
     else:
-        return jsonify({"token": create_access_token(identity="ready")}), 200
-   
+        return jsonify({"token": create_access_token(identity=str(user.id), expires_delta=timedelta(days=(1)))}), 200
+
+
+@api.route("/private", methods=["GET"])
+@jwt_required()
+def private():
+    id = get_jwt_identity()
+    return jsonify({"message": f"This is a private endpoint, current ID : {id}"}), 200
+
+
+@api.route("/me", methods=["GET"])
+@jwt_required()
+def me():
+    id = get_jwt_identity()
+    user = User.query.get(id)
+
+    return jsonify({"user": user.serialize()}), 200
