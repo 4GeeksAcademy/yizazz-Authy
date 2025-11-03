@@ -1,6 +1,9 @@
+import React from "react";
+import { Link } from "react-router-dom";
+
 export const Login = () => {
     return <>
-        <div className="row justify-content-center mt-5">
+        <div className="row vh-100 justify-content-center d-flex align-items-center mt-5">
             <div className="form col-12 col-md-6">
                 <div className="mb-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
@@ -11,7 +14,14 @@ export const Login = () => {
                     <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
                     <input type="password" className="form-control" id="exampleInputPassword1" />
                 </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <span className="d-flex justify-content-between">
+                    <Link to="/signup" className="d-flex justify-content-start align-items-center">
+                        <a>Create Account</a>
+                    </Link>
+                    <span className="justify-content-end d-flex">
+                        <button type="submit" className="btn btn-primary">Login</button>
+                    </span>
+                </span>
             </div>
         </div>
     </>
