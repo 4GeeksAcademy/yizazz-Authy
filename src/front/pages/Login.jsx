@@ -27,7 +27,7 @@ export const Login = () => {
             const email = document.getElementById("exampleInputEmail1").value;
             const password = document.getElementById("exampleInputPassword1").value;
 
-            const response = await fetch("https://fuzzy-cod-5g956v5464q7hvjwq-3001.app.github.dev/api/login", {
+            const response = await fetch("https://fuzzy-telegram-wr4x6vx96969c9xjr-3001.app.github.dev/api/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
