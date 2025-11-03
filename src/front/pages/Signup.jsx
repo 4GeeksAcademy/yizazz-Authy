@@ -8,12 +8,13 @@ export const Signup = () => {
     const [password, setPassword] = useState("");
     const [statusMessage, setStatusMessage] = useState(null);
 
+    const urlBase = import.meta.env.VITE_BACKEND_URL
 
     useEffect(() => {
         if (statusMessage) {
             setTimeout(() => {
                 setStatusMessage(null);
-            }, 3000);
+            }, 4000);
         }
     }, [statusMessage]);
 
@@ -22,7 +23,7 @@ export const Signup = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch("https://fuzzy-telegram-wr4x6vx96969c9xjr-3001.app.github.dev/api/register", {
+            const response = await fetch(`${urlBase}/api/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -63,12 +64,12 @@ export const Signup = () => {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
-                        <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={email} onChange={e => setEmail(e.target.value)} />
+                        <input type="email" autoComplete="username" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={email} onChange={e => setEmail(e.target.value)} />
                         <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                        <input type="password" className="form-control" id="exampleInputPassword1" value={password} onChange={e => setPassword(e.target.value)} />
+                        <input type="password" autoComplete="current-password" className="form-control" id="exampleInputPassword1" value={password} onChange={e => setPassword(e.target.value)} />
                     </div>
                     <button
                         type="submit"

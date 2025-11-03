@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import useGlobalReducer from "../hooks/useGlobalReducer";
 
 
+const urlBase = import.meta.env.VITE_BACKEND_URL
+
 export const Login = () => {
 
     const [email, setEmail] = useState("");
@@ -16,7 +18,7 @@ export const Login = () => {
         if (statusMessage) {
             setTimeout(() => {
                 setStatusMessage(null);
-            }, 3000);
+            }, 4000);
         }
     }, [statusMessage]);
 
@@ -27,7 +29,7 @@ export const Login = () => {
             const email = document.getElementById("exampleInputEmail1").value;
             const password = document.getElementById("exampleInputPassword1").value;
 
-            const response = await fetch("https://fuzzy-telegram-wr4x6vx96969c9xjr-3001.app.github.dev/api/login", {
+            const response = await fetch(`${urlBase}/api/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
