@@ -22,7 +22,7 @@ export const Signup = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch("https://solid-system-jjg96r946qjrfrqj-3001.app.github.dev/api/register", {
+            const response = await fetch("https://fuzzy-cod-5g956v5464q7hvjwq-3001.app.github.dev/api/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
